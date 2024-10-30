@@ -23,28 +23,6 @@ namespace Contoso.Function
             _graphClient = graphClient;
         }
 
-/*         [Function("HandleCallRecords")]
-        public async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Anonymous, "post")] HttpRequest req)
-        {
-            _logger.LogInformation("C# HTTP trigger function processed a request.");
-
-            // Parse the incoming request
-            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-            var data = JsonConvert.DeserializeObject<GraphNotification>(requestBody);
-
-            if (data == null || data.value == null)
-            {
-                _logger.LogError("Failed to deserialize GraphNotification or value is null.");
-                return new BadRequestResult();
-            }
-            // get the resource property for each notification
-            foreach (var notification in data.value)
-            {
-                _logger.LogInformation("Resource: {Resource}", notification.Resource);
-            }
-            return new OkObjectResult("Processed notifications successfully.");
-        } */
-
         // create an additional function to handle the post from graph to the notification url
         [Function("ProcessNotification")]
         public async Task<IActionResult> HandleNotification([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post")] HttpRequest req)
