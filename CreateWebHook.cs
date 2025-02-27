@@ -19,13 +19,15 @@ namespace Contoso.Function
 
         private readonly GraphServiceClient _graphClient;
 
-        private readonly string _webHookEndpointName;
+        private string _webHookEndpointName;
+        private string _changeType;
+        private string _resource;
+        private DateTimeOffset _expirationDateTime;
 
         public CreateWebHook(ILogger<CreateWebHook> logger, GraphServiceClient graphClient)
         {
             _logger = logger;
             _graphClient = graphClient;
-            _webHookEndpointName = "https://"+ Environment.GetEnvironmentVariable("WEBHOOK_ENDPOINT_NAME") +"/api/ProcessNotification";
         }
 
         [Function("CreateWebHook")]
@@ -34,14 +36,22 @@ namespace Contoso.Function
             _logger.LogInformation("C# HTTP trigger function processed a request.");
 
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-            dynamic data = JsonConvert.DeserializeObject(requestBody);
+            dynamic? data = requestBody != null ? JsonConvert.DeserializeObject(requestBody) : null;
+
+            if (data?.webHookEndpointName != null)
+            {
+                _changeType = data.changeType;
+                _webHookEndpointName = data.webHookEndpointName;
+                _resource = data.resource;
+                _expirationDateTime = DateTimeOffset.UtcNow.AddMinutes(data.expirationDateTime);
+            }
 
             var subscription = new Subscription
             {
-                ChangeType = "created",
+                ChangeType = _changeType,
                 NotificationUrl = _webHookEndpointName,
-                Resource = "/communications/callRecords",
-                ExpirationDateTime = DateTimeOffset.UtcNow.AddMinutes(4230), // Set expiration to 3 days from now
+                Resource = _resource,
+                ExpirationDateTime = _expirationDateTime,
                 ClientState = "SecretClientState"
             };
 
