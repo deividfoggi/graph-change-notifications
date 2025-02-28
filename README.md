@@ -130,7 +130,7 @@ This project implements two scenarios to process change notifications from Micro
 
 To deploy the Azure Functions to Azure, Open Azure extension > Workspace > right click on Local Project folder > Deploy to Azure.
 
-Re-run the scenariosn but now using function endpoint to create the subscription.
+Re-run the scenariosn but now using function endpoint to create the subscription. You can use the page Monitoring > Log stream in the Function App to see the log when the notification is received by Event Hubs trigger.
 
 ## License
 
