@@ -87,7 +87,7 @@ This project implements two scenarios to process change notifications from Micro
 
 1. **Trigger the function:**
 
-    You can trigger the `CreateSubscription` function by sending an HTTP POST request to `https://<forwarded address>/api/processNotification`.
+    You can trigger the `createSubscription` function by sending an HTTP POST request to `https://<forwarded address>/api/createSubscription`.
 
     Example of the json payload:
 
