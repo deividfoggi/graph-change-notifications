@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "Teams_Call_Recording_WebHook": {
+    "GraphChangeNotifications": {
       "commandName": "Project",
       "commandLineArgs": "--port 7202",
       "launchBrowser": false
