@@ -1,6 +1,9 @@
-# Teams Call Recording WebHook
+# Receive change notifications from Microsoft Graph
 
-This project is an Azure Function written in C# that handles Microsoft Teams call recording webhooks. It includes two main functions: `CreateWebHook` and `HandleCallRecords`.
+This project implements two scenarios to process change notifications from Microsoft Graph:
+
+- WebHook: https://learn.microsoft.com/en-us/graph/change-notifications-delivery-webhooks?tabs=http
+- EventHubs: https://learn.microsoft.com/en-us/graph/change-notifications-delivery-event-hubs?tabs=change-notifications-eventhubs-azure-portal-rbac%2Cchange-notifications-eventhubs-rbac%2Chttp
 
 ## Prerequisites
 
@@ -8,6 +11,8 @@ This project is an Azure Function written in C# that handles Microsoft Teams cal
 - [Azure Functions Core Tools](https://docs.microsoft.com/en-us/azure/azure-functions/functions-run-local)
 - [Visual Studio Code](https://code.visualstudio.com/)
 - [Azure Functions Extension for Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-azurefunctions)
+- Azure Subscription
+- Terraform
 
 ## Setup
 
@@ -15,7 +20,7 @@ This project is an Azure Function written in C# that handles Microsoft Teams cal
 
     ```sh
     git clone <repository-url>
-    cd Teams-Call-Recording-WebHook
+    cd receive-change-notifications-graph
     ```
 
 2. **Open the project in Visual Studio Code:**
@@ -24,11 +29,7 @@ This project is an Azure Function written in C# that handles Microsoft Teams cal
     code .
     ```
 
-3. **Install the recommended extensions:**
-
-    When you open the project in Visual Studio Code, you will be prompted to install the recommended extensions. Install the Azure Functions and C# extensions.
-
-4. **Create an Application Registration in Entra**
+3. **Create an Application Registration in Entra**
 
     The application registration should have the Microsoft Graph Application permission OnlineMeetings.Read.All. Take a note of the following values:
 
@@ -36,30 +37,19 @@ This project is an Azure Function written in C# that handles Microsoft Teams cal
     - Client ID
     - Create a client secret
 
-5. **Enable VSCode local port redirect**
+4. **Deploy the infrastructure**
 
-    Using PORTS menu:
-    - click on _Forward a Port_, set por 7071 and hit ENTER.
-    - Once the port is started, right click on the port and select _Port visibility > Public_.
-    - Copy the forwarded address.
+    Adjust file azure/terraform.tfvars with the desired region if needed and run the following commands from azure directory:
 
-5. **Configure local settings:**
-
-    Set the values copied from application registration and forwarded address in the local.settings.json
-
-    ```json
-    {
-        "IsEncrypted": false,
-        "Values": {
-            "AzureWebJobsStorage": "UseDevelopmentStorage=true",
-            "FUNCTIONS_WORKER_RUNTIME": "dotnet",
-            "TENANT_ID": "<app-registration-tenant-id>",
-            "CLIENT_ID": "<app-registration-client-id>",
-            "CLIENT_SECRET": "<app-registration-client-secret>",
-            "WEBHOOK_ENDPOINT_NAME": "<forwarded-address>"
-        }
-    }
     ```
+    terraform init
+    terraform plan --var-file=terraform.tfvars
+    terraform apply -var-file=terraform.tfvars
+
+5. **Set environment variables in the app service:**
+
+    1. Go to Azure Portal, open the resource group with name graphchangetracking-<uniqueid>-rg
+    2. Open the Event Hub namespace and copy the xyz value in the Overview page
 
 ## Running the Project
 

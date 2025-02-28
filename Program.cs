@@ -26,8 +26,8 @@ var host = new HostBuilder()
         services.ConfigureFunctionsApplicationInsights();
         services.AddSingleton(graphClient);
         services.AddSingleton<CreateWebHook>();
-        services.AddSingleton<HandleResourceNotifications>();
-        services.AddSingleton<HandleLifecycleNotifications>();
+        services.AddSingleton<processLifecyleNotificationsWebHook>();
+        services.AddSingleton<processNotificationsWebHook>();
     })
     .Build();
 

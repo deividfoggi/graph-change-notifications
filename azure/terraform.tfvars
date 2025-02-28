@@ -1,0 +1,13 @@
+subscription_id = "dc22d6d8-0495-4653-a69b-edfe16840f8e"
+resource_group_name = "graphchangetracking"
+location = "eastus2"
+event_hub_namespace_name = "graph-change-tracking-ehns"
+event_hub_namespace_sku = "Standard"
+event_hub_namespace_capacity = 1
+event_hub_name = "graph-change-tracking-eh"
+event_hub_partition_count = 1
+event_hub_message_retention = 7
+event_hub_authorization_rule_name = "graph-change-tracking-eh-auth"
+microsoft_garph_change_tracking_principal_id = "5ef35de7-93ff-4cbd-86bd-27b5d045f859"
+storage_account_tier = "Standard"
+storage_account_replication_type = "LRS"
