@@ -20,7 +20,7 @@ This project implements two scenarios to process change notifications from Micro
 
     ```sh
     git clone <repository-url>
-    cd receive-change-notifications-graph
+    cd graph-change-notifications
     ```
 
 2. **Open the project in Visual Studio Code:**
