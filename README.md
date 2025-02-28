@@ -43,6 +43,7 @@ This project implements two scenarios to process change notifications from Micro
     Adjust file azure/terraform.tfvars with the desired region if needed and run the following commands from azure directory:
 
     ```
+    cd azure
     terraform init
     terraform plan --var-file=terraform.tfvars
     terraform apply -var-file=terraform.tfvars
