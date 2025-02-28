@@ -49,7 +49,7 @@ This project implements two scenarios to process change notifications from Micro
 5. **Set environment variables in the app service:**
 
     1. Go to Azure Portal, open the resource group with name graphchangetracking-<uniqueid>-rg
-    2. Open the Event Hub namespace and copy the xyz value in the Overview page
+    2. Open the Event Hub namespace and copy the hostname value in the Overview page
 
 ## Running the Project
 
