@@ -36,6 +36,7 @@ This project implements two scenarios to process change notifications from Micro
     - Tenant ID
     - Client ID
     - Create a client secret
+    - Add Microsoft Graph API Permission accordingly to the resource you would like to subscribe, for instance
 
 4. **Deploy the infrastructure**
 
@@ -50,6 +51,14 @@ This project implements two scenarios to process change notifications from Micro
 
     1. Go to Azure Portal, open the resource group with name graphchangetracking-<uniqueid>-rg
     2. Open the Event Hub namespace and copy the hostname value in the Overview page
+    3. Open the function app and acess Environment Variables page to set the following variables:
+
+        "AzureWebJobsStorage": "<storage account connection string>",
+        "CLIENT_ID": "<application registration client id>",
+        "TENANT_ID": "<application registration tenant id>",
+        "CLIENT_SECRET": "<application registration client secret>",
+        "WEBHOOK_ENDPOINT_NAME": "https://qsr0nd8n-7071.brs.devtunnels.ms/api/ProcessNotification",
+        "AzureWebJobsEventHubConnectionString": "<event hubs connection string>"
 
 ## Running the Project
 
@@ -63,30 +72,34 @@ This project implements two scenarios to process change notifications from Micro
 
 2. **Run the Azure Functions locally:**
 
-    Press `F5` or run the following command in the terminal:
-
-    ```sh
-    func start
-    ```
+    Press `F5`
 
     This will start the Azure Functions runtime and your functions will be available locally.
 
+3. **Forward a public endpoint**
+
+    In VSCode, use PORTS menu to forward port 7071. Change the forwarded address to public visibility (right click on the address in the list) and copy the address
+
 ## Testing the Functions
 
-### CreateWebHook Function
+### CreateSubscription Function
 
 1. **Trigger the function:**
 
-    You can trigger the `CreateWebHook` function by sending an HTTP POST request to `<forwarded address>/api/CreateWebHook`.
+    You can trigger the `CreateSubscription` function by sending an HTTP POST request to `https://<forwarded address>/api/processNotification`.
 
     Example of the json payload:
 
+    **ATTENTION! You can get the domain name from Entra ID's Overview page**.
+
     ```json
     {
-        "changeType": "created",
-        "webHookEndpointName": "https://qsr0nd8n-7071.brs.devtunnels.ms/",
-        "resource" = "communications/onlineMeetings/getAllRecordings",
-        "expirationDateTime": "4230"
+    "changeType": "created",
+    "notificationUrl": "EventHub:https://<eventhub hostname>/eventhubname/<eventhub name>?tenantId=<domain name>",
+    "lifecycleNotificationUrl": "https://<forwarded local address>/api/lifecycleNotifications",
+    "resource": "communications/onlineMeetings/getAllRecordings",
+    "includeResourceData": true,
+    "expirationDateTime": "4230"
     }
     ```
 
@@ -94,11 +107,19 @@ This project implements two scenarios to process change notifications from Micro
 
     The function logs will be displayed in the terminal where you started the Azure Functions runtime.
 
-### HandleCallRecords Function
+### Handle the subscribed notification
 
 1. **Trigger the function:**
 
-    Considering the previous step used the CreateWebHook function to subscribe to get all meeting recordings, create a teams meeting the same tenant the application registration was created, start meeting recording, await for 5 ou 10 seconds and stop the recording.
+    Considering the previous step used to create the web hook, you have subscribed for any new Teams Meeting record. You can fire notifications using the following step:
+
+    - Open Teams using any user in the tenant you subscribed to (same tenant of the application registration)
+    - Schedule a meeting
+    - Join the meeting
+    - Start meeting recording
+    - Stop meeting recording
+    - End the meeting (MAKE SURE YOU REALLY ENDED THE MEETING, DO NOT JUST LEAVE IT, YOU MUST END IT)
+    - To fire more events, join again, start and stop recording and end the meeting. Every time you do it, even using the same meeting, it fires a new notification.
 
 2. **Check the logs:**
 
@@ -106,7 +127,7 @@ This project implements two scenarios to process change notifications from Micro
 
 ## Deployment
 
-To deploy the Azure Functions to Azure, follow the instructions in the [Azure Functions documentation](https://docs.microsoft.com/en-us/azure/azure-functions/functions-develop-vs-code?tabs=csharp).
+To deploy the Azure Functions to Azure, Open Azure extension > Workspace > right click on Local Project folder > Deploy to Azure.
 
 ## License
 
