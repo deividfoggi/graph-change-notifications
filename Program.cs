@@ -25,7 +25,7 @@ var host = new HostBuilder()
         services.AddApplicationInsightsTelemetryWorkerService();
         services.ConfigureFunctionsApplicationInsights();
         services.AddSingleton(graphClient);
-        services.AddSingleton<CreateWebHook>();
+        services.AddSingleton<CreateSubscription>();
         services.AddSingleton<processLifecyleNotificationsWebHook>();
         services.AddSingleton<processNotificationsWebHook>();
     })

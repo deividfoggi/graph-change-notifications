@@ -15,18 +15,18 @@ using System.Threading.Tasks;
 
 namespace Contoso.Function
 {
-    public class CreateWebHook
+    public class CreateSubscription
     {
-        private readonly ILogger<CreateWebHook> _logger;
+        private readonly ILogger<CreateSubscription> _logger;
 
         private readonly GraphServiceClient _graphClient;
-        public CreateWebHook(ILogger<CreateWebHook> logger, GraphServiceClient graphClient)
+        public CreateSubscription(ILogger<CreateSubscription> logger, GraphServiceClient graphClient)
         {
             _logger = logger;
             _graphClient = graphClient;
         }
 
-        [Function("CreateWebHook")]
+        [Function("createSubscription")]
         public async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Function, "get", "post")] HttpRequest req)
         {
             _logger.LogInformation("C# HTTP trigger function processed a request.");
