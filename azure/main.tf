@@ -80,7 +80,9 @@ resource "azurerm_linux_function_app" "function_app" {
   storage_account_name       = "${local.unique_string}storage"
   storage_account_access_key = azurerm_storage_account.storage_account.primary_access_key
 
-  site_config { }
+  site_config {
+    linux_fx_version = "DOTNET-ISOLATED|8.0"
+  }
 
   app_settings = {
     "AzureWebJobsStorage" = azurerm_storage_account.storage_account.primary_connection_string
