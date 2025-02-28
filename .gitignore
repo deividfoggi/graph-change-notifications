@@ -269,5 +269,10 @@ __pycache__/
 .terraform/
 terraform.tfstate
 terraform.tfstate.backup
+*.lock.hcl
 *.tfstate.d
 *.tfplan
+
+# azurite files
+__blobstorage__
+__azurite*
