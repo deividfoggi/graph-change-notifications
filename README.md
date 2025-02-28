@@ -58,7 +58,7 @@ This project implements two scenarios to process change notifications from Micro
         "CLIENT_ID": "<application registration client id>",
         "TENANT_ID": "<application registration tenant id>",
         "CLIENT_SECRET": "<application registration client secret>",
-        "WEBHOOK_ENDPOINT_NAME": "https://qsr0nd8n-7071.brs.devtunnels.ms/api/ProcessNotification",
+        "WEBHOOK_ENDPOINT_NAME": "https://<function default domain>/api/ProcessNotification",
         "AzureWebJobsEventHubConnectionString": "<event hubs connection string>"
 
 ## Running the Project
@@ -129,6 +129,8 @@ This project implements two scenarios to process change notifications from Micro
 ## Deployment
 
 To deploy the Azure Functions to Azure, Open Azure extension > Workspace > right click on Local Project folder > Deploy to Azure.
+
+Re-run the scenariosn but now using function endpoint to create the subscription.
 
 ## License
 
