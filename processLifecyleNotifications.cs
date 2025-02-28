@@ -14,11 +14,11 @@ namespace Contoso.Function
 {
     public class processLifecyleNotificationsWebHook
     {
-        private readonly ILogger<CreateWebHook> _logger;
+        private readonly ILogger<CreateSubscription> _logger;
         private GraphServiceClient _graphClient;
         private readonly HttpClient _httpClient;
 
-        public processLifecyleNotificationsWebHook(ILogger<CreateWebHook> logger, GraphServiceClient graphClient)
+        public processLifecyleNotificationsWebHook(ILogger<CreateSubscription> logger, GraphServiceClient graphClient)
         {
             _logger = logger;
             _graphClient = graphClient;

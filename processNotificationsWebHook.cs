@@ -1,26 +1,21 @@
-using Azure.Identity;
+
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Logging;
 using Microsoft.Graph;
-using Microsoft.Graph.Communications.Calls.LogTeleconferenceDeviceQuality;
 using Microsoft.Graph.Models;
-using Microsoft.Graph.Models.CallRecords;
-using Microsoft.Identity.Client;
-using Microsoft.Kiota.Abstractions;
+
 using Newtonsoft.Json;
-using System.IO;
-using System.Threading.Tasks;
 
 namespace Contoso.Function
 {
     public class processNotificationsWebHook
     {
-        private readonly ILogger<CreateWebHook> _logger;
+        private readonly ILogger<CreateSubscription> _logger;
         private GraphServiceClient _graphClient;
 
-        public processNotificationsWebHook(ILogger<CreateWebHook> logger, GraphServiceClient graphClient)
+        public processNotificationsWebHook(ILogger<CreateSubscription> logger, GraphServiceClient graphClient)
         {
             _logger = logger;
             _graphClient = graphClient;
